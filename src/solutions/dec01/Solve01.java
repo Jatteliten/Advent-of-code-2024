@@ -32,14 +32,10 @@ public class Solve01 {
         initializeLists(input);
         int output = 0;
         for(Integer i: firstList){
-            int counter = 0;
             for(Integer j: secondList){
                 if(i.equals(j)){
-                    counter++;
+                    output+=i;
                 }
-            }
-            if(counter > 0) {
-                output += (i * counter);
             }
         }
         return output;
