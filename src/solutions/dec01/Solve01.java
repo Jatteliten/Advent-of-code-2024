@@ -5,43 +5,36 @@ import java.util.Collections;
 import java.util.List;
 
 public class Solve01 {
-
-    List<Integer> firstList = new ArrayList<>();
-    List<Integer> secondList = new ArrayList<>();
+    List<Integer> firstList;
+    List<Integer> secondList;
 
     public int solveA(List<String> input){
-        firstList = new ArrayList<>();
-        secondList = new ArrayList<>();
+        int output = 0;
         initializeLists(input);
         Collections.sort(firstList);
         Collections.sort(secondList);
-        int output = 0;
+
         for(int i = 0; i < firstList.size(); i++){
-            if(secondList.get(i) > firstList.get(i)){
-                output += (secondList.get(i) - firstList.get(i));
-            }else{
-                output += (firstList.get(i) - secondList.get(i));
-            }
+            output += Math.abs(secondList.get(i) - firstList.get(i));
         }
         return output;
     }
 
     public int solveB(List<String> input){
-        firstList = new ArrayList<>();
-        secondList = new ArrayList<>();
-        initializeLists(input);
         int output = 0;
+        initializeLists(input);
+
         for(Integer i: firstList){
-            for(Integer j: secondList){
-                if(i.equals(j)){
-                    output+=i;
-                }
+            if(secondList.contains(i)) {
+                output += i * Collections.frequency(secondList, i);
             }
         }
         return output;
     }
 
     public void initializeLists(List<String> input){
+        firstList = new ArrayList<>();
+        secondList = new ArrayList<>();
         for(String s: input) {
             String[] sArr = s.split("   ");
             firstList.add(Integer.valueOf(sArr[0]));
