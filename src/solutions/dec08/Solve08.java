@@ -49,8 +49,8 @@ public class Solve08 {
                     List<Integer> firstAntiNode = List.of(firstY + yDiff, firstX + xDiff);
                     List<Integer> secondAntiNode = List.of(secondY - yDiff, secondX - xDiff);
 
-                    checkThatAntiNodeIsWithinBoundsAndDoesntExist(input, busyLocations, firstAntiNode);
-                    checkThatAntiNodeIsWithinBoundsAndDoesntExist(input, busyLocations, secondAntiNode);
+                    addAntiNodeIfItIsWithinBoundsAndDoesntExist(input, busyLocations, firstAntiNode);
+                    addAntiNodeIfItIsWithinBoundsAndDoesntExist(input, busyLocations, secondAntiNode);
                 }
             }
         }
@@ -76,18 +76,24 @@ public class Solve08 {
                         busyLocations.add(List.of(signals.get(c).get(j), signals.get(c).get(j+1)));
                     }
 
-                    while((firstY + yDiff + yDiff * multiplier >= 0 && firstY + yDiff + yDiff * multiplier < input.size()
-                            && firstX + xDiff + xDiff * multiplier >= 0 && firstX + xDiff + xDiff * multiplier < input.get(0).length())){
-                        List<Integer> firstAntiNode = List.of(firstY + yDiff + yDiff * multiplier, firstX + xDiff + xDiff * multiplier);
-                        checkThatAntiNodeIsWithinBoundsAndDoesntExist(input, busyLocations, firstAntiNode);
+                    while((firstY + yDiff + yDiff * multiplier >= 0
+                            && firstY + yDiff + yDiff * multiplier < input.size()
+                            && firstX + xDiff + xDiff * multiplier >= 0
+                            && firstX + xDiff + xDiff * multiplier < input.get(0).length())){
+                        List<Integer> firstAntiNode = List.of(firstY + yDiff + yDiff * multiplier,
+                                firstX + xDiff + xDiff * multiplier);
+                        addAntiNodeIfItIsWithinBoundsAndDoesntExist(input, busyLocations, firstAntiNode);
                         multiplier++;
                     }
 
                     multiplier = 0;
-                    while(secondY - yDiff - yDiff * multiplier >= 0 && secondY - yDiff - yDiff * multiplier < input.size()
-                            && secondX - xDiff - xDiff * multiplier >= 0 && secondX - xDiff - xDiff * multiplier < input.get(0).length()){
-                        List<Integer> secondAntiNode = List.of(secondY - yDiff - yDiff * multiplier, secondX - xDiff - xDiff * multiplier);
-                        checkThatAntiNodeIsWithinBoundsAndDoesntExist(input, busyLocations, secondAntiNode);
+                    while(secondY - yDiff - yDiff * multiplier >= 0
+                            && secondY - yDiff - yDiff * multiplier < input.size()
+                            && secondX - xDiff - xDiff * multiplier >= 0
+                            && secondX - xDiff - xDiff * multiplier < input.get(0).length()){
+                        List<Integer> secondAntiNode = List.of(secondY - yDiff - yDiff * multiplier,
+                                secondX - xDiff - xDiff * multiplier);
+                        addAntiNodeIfItIsWithinBoundsAndDoesntExist(input, busyLocations, secondAntiNode);
                         multiplier++;
                     }
 
@@ -98,9 +104,9 @@ public class Solve08 {
         return busyLocations.size();
     }
 
-    private void checkThatAntiNodeIsWithinBoundsAndDoesntExist(List<String> input,
-                                                              List<List<Integer>> busyLocations,
-                                                              List<Integer> antiNode) {
+    private void addAntiNodeIfItIsWithinBoundsAndDoesntExist(List<String> input,
+                                                             List<List<Integer>> busyLocations,
+                                                             List<Integer> antiNode) {
         if(antiNode.get(0) >= 0
                 && antiNode.get(0) < input.size()
                 && antiNode.get(1) >= 0
