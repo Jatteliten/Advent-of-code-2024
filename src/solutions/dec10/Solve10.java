@@ -43,18 +43,7 @@ public class Solve10 {
                 if(current == 57){
                     topSet.add(l);
                 }else{
-                    if(l.get(0) > 0 && current + 1 == input.get(l.get(0) - 1).charAt(l.get(1))){
-                        newCoordinates.add(List.of(l.get(0) - 1, l.get(1)));
-                    }
-                    if(l.get(1) > 0 && current + 1 == input.get(l.get(0)).charAt(l.get(1) - 1)){
-                        newCoordinates.add(List.of(l.get(0), l.get(1) - 1));
-                    }
-                    if(l.get(0) < input.size() - 1 && current + 1== input.get(l.get(0) + 1).charAt(l.get(1))){
-                        newCoordinates.add(List.of(l.get(0) + 1, l.get(1)));
-                    }
-                    if(l.get(1) < input.get(0).length() - 1 && current + 1 == input.get(l.get(0)).charAt(l.get(1) + 1)){
-                        newCoordinates.add(List.of(l.get(0), l.get(1) + 1));
-                    }
+                    checkDirections(input, newCoordinates, l, current);
                 }
             }
             currentCoordinates = newCoordinates;
@@ -74,22 +63,26 @@ public class Solve10 {
                 if(current == 57){
                     result++;
                 }else{
-                    if(l.get(0) > 0 && current + 1 == input.get(l.get(0) - 1).charAt(l.get(1))){
-                        newCoordinates.add(List.of(l.get(0) - 1, l.get(1)));
-                    }
-                    if(l.get(1) > 0 && current + 1 == input.get(l.get(0)).charAt(l.get(1) - 1)){
-                        newCoordinates.add(List.of(l.get(0), l.get(1) - 1));
-                    }
-                    if(l.get(0) < input.size() - 1 && current + 1== input.get(l.get(0) + 1).charAt(l.get(1))){
-                        newCoordinates.add(List.of(l.get(0) + 1, l.get(1)));
-                    }
-                    if(l.get(1) < input.get(0).length() - 1 && current + 1 == input.get(l.get(0)).charAt(l.get(1) + 1)){
-                        newCoordinates.add(List.of(l.get(0), l.get(1) + 1));
-                    }
+                    checkDirections(input, newCoordinates, l, current);
                 }
             }
             currentCoordinates = newCoordinates;
         }
         return result;
+    }
+
+    private void checkDirections(List<String> input, List<List<Integer>> newCoordinates, List<Integer> l, int current) {
+        if(l.get(0) > 0 && current + 1 == input.get(l.get(0) - 1).charAt(l.get(1))){
+            newCoordinates.add(List.of(l.get(0) - 1, l.get(1)));
+        }
+        if(l.get(1) > 0 && current + 1 == input.get(l.get(0)).charAt(l.get(1) - 1)){
+            newCoordinates.add(List.of(l.get(0), l.get(1) - 1));
+        }
+        if(l.get(0) < input.size() - 1 && current + 1== input.get(l.get(0) + 1).charAt(l.get(1))){
+            newCoordinates.add(List.of(l.get(0) + 1, l.get(1)));
+        }
+        if(l.get(1) < input.get(0).length() - 1 && current + 1 == input.get(l.get(0)).charAt(l.get(1) + 1)){
+            newCoordinates.add(List.of(l.get(0), l.get(1) + 1));
+        }
     }
 }
