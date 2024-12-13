@@ -12,6 +12,5 @@ public class Run {
 
         System.out.println(s.SolveA(testInput));
         System.out.println(s.SolveA(input));
-        System.out.println(s.SolveB(testInput));
     }
 }
