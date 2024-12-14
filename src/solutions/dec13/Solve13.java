@@ -13,17 +13,13 @@ public class Solve13 {
             int pY = Integer.parseInt(input.get(i+2).split("Y=")[1]);
             int pX = Integer.parseInt(input.get(i+2).split(",")[0].split("X=")[1]);
 
-            int lowestPresses = Integer.MAX_VALUE;
             for(int j = 1; j <= 100; j++) {
                 pY -= bY;
                 pX -= bX;
                 if (pY % aY == 0 && pX % aX == 0 && pY/aY == pX/aX) {
-                    lowestPresses = Math.min(lowestPresses, j + (pY / aY * 3));
+                    result += j + (pY / aY * 3);
+                    break;
                 }
-            }
-
-            if(lowestPresses != Integer.MAX_VALUE){
-                result += lowestPresses;
             }
         }
         return result;
