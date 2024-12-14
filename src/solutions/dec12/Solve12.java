@@ -1,7 +1,9 @@
 package solutions.dec12;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Solve12 {
     public int solveA(List<String> input) {
