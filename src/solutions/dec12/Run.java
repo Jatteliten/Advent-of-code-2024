@@ -11,8 +11,8 @@ public class Run {
         List<String> input = Utils.readFileToList("src/solutions/dec12/input");
         Solve12 s = new Solve12();
 
-        //System.out.println("Small test A: " + s.solveA(smallTestInput));
-        //System.out.println("Test A: " + s.solveA(testInput));
-        //System.out.println("Actual A: " + s.solveA(input));
+        System.out.println("Small test A: " + s.solveA(smallTestInput));
+        System.out.println("Test A: " + s.solveA(testInput));
+        System.out.println("Actual A: " + s.solveA(input));
     }
 }
