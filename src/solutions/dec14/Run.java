@@ -11,7 +11,6 @@ public class Run {
         Solve14 s = new Solve14();
 
         System.out.println("Test A: " + s.solveA(testInput,7, 11));
-        System.out.println("Actual A: " + s.solveA(input,103, 101));
         System.out.println("Actual A: " + s.solveB(input,103, 101));
     }
 }
