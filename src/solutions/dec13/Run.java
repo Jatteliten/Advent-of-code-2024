@@ -10,7 +10,7 @@ public class Run {
         List<String> input = Utils.readFileToList("src/solutions/dec13/input");
         Solve13 s = new Solve13();
 
-        System.out.println(s.SolveA(testInput));
-        System.out.println(s.SolveA(input));
+        System.out.println("Test A: " + s.SolveA(testInput));
+        System.out.println("Actual A: " + s.SolveA(input));
     }
 }
