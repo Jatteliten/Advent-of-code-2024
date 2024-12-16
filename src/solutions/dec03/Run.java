@@ -7,7 +7,7 @@ import java.util.List;
 public class Run {
     public static void main(String[] args) {
         List<String> testInput = Utils.readFileToList("src/solutions/dec03/testInput");
-        List<String> testInputB = Utils.readFileToList("src/solutions/dec03/testInputB");
+        List<String> testInputB = Utils.readFileToList("src/solutions/dec03/eShape");
         List<String> input = Utils.readFileToList("src/solutions/dec03/input");
         Solve03 s = new Solve03();
 
