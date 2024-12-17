@@ -12,5 +12,8 @@ public class Run {
 
         System.out.println("Test A: " + s.solveA(testInput));
         System.out.println("Actual A: " + s.solveA(input));
+
+        System.out.println("Test B: " + s.solveB(testInput));
+        System.out.println("Test B: " + s.solveB(input));
     }
 }

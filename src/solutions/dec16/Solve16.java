@@ -1,89 +1,117 @@
 package solutions.dec16;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Solve16 {
-    public int solveA(List<String> input){
-        List<String> availablePath = new ArrayList<>();
-        String goal = 1 + ":" + (input.get(0).length() - 2);
-        availablePath.add(goal);
-        List<List<String>> paths = new ArrayList<>();
-        paths.add(List.of((input.size() - 2) + ":" + 1));
-        for(int i = 0; i < input.size(); i++){
-            for(int j = 0; j < input.get(0).length(); j++){
-                if(input.get(i).charAt(j) == '.'){
-                    availablePath.add(i + ":" + j);
-                }
-            }
-        }
+    long lowest;
+    List<Integer> start;
+    List<Integer> end;
+    List<List<Character>> map;
+    List<Path> paths;
+    Map<List<Integer>, Long> mapPoints;
+    private final static String UP = "u";
+    private final static String DOWN = "d";
+    private final static String LEFT = "l";
+    private final static String RIGHT = "r";
 
-        List<List<String>> finalPaths = findFinalPath(paths, availablePath, goal);
-        int lowest = Integer.MAX_VALUE;
-        for(List<String> l: finalPaths){
-            int turns = 0;
-            boolean horizontal = true;
-            for(int i = 1; i < l.size(); i++){
-                String last = l.get(i-1);
-                String current = l.get(i);
-                int lastY = Integer.parseInt(last.substring(0, last.indexOf(":")));
-                int lastX = Integer.parseInt(last.substring(last.indexOf(":") + 1));
-                int currentY = Integer.parseInt(current.substring(0, current.indexOf(":")));
-                int currentX = Integer.parseInt(current.substring(current.indexOf(":") + 1));
-                if(horizontal){
-                    if(lastY != currentY){
-                        horizontal = false;
-                        turns++;
-                    }
-                }else{
-                    if(lastX != currentX){
-                        horizontal = true;
-                        turns++;
+    public long solveA(List<String> input){
+        initializeSolve(input);
+
+        while(!paths.isEmpty()){
+            List<Path> newPaths = new ArrayList<>();
+            for(Path p: paths){
+                if(p.points <= lowest) {
+                    List<Integer> currentSpot = p.visitedLocations.get(p.visitedLocations.size()-1);
+                    int y = currentSpot.get(0);
+                    int x = currentSpot.get(1);
+                    if (end.get(0) == y && end.get(1) == x) {
+                        lowest = p.points;
+                    }else{
+                        checkDirection(y - 1, x, p, UP, newPaths);
+                        checkDirection(y + 1, x, p, DOWN, newPaths);
+                        checkDirection(y, x - 1, p, LEFT, newPaths);
+                        checkDirection(y, x + 1, p, RIGHT, newPaths);
                     }
                 }
             }
-            lowest = Math.min(lowest, l.size() - 1 + turns * 1000);
+            paths = newPaths;
         }
         return lowest;
     }
 
-    private List<List<String>> findFinalPath(List<List<String>> paths, List<String> availablePath, String goal) {
-        List<List<String>> goalPaths = new ArrayList<>();
-        while(true){
-            List<List<String>> newPaths = new ArrayList<>();
-            for(List<String> path: paths){
-                String p = path.get(path.size()-1);
-                int y = Integer.parseInt(p.substring(0, p.indexOf(":")));
-                int x = Integer.parseInt(p.substring(p.indexOf(":") + 1));
-                String down = (y-1) + ":" + x;
-                String up= (y+1) + ":" + x;
-                String left = y + ":" + (x-1);
-                String right = y + ":" + (x+1);
 
-                for(String s: List.of(down, up, left, right)){
-                    List<String> newPath = checkDirection(availablePath, path, s);
-                    if (newPath != null){
-                        if(newPath.get(newPath.size()-1).equals(goal)){
-                            goalPaths.add(newPath);
-                        }else{
-                            newPaths.add(newPath);
-                        }
+    public long solveB(List<String> input) {
+        initializeSolve(input);
+        List<Path> winningPaths = new ArrayList<>();
+
+        while (!paths.isEmpty()) {
+            List<Path> newPaths = new ArrayList<>();
+            for (Path p : paths) {
+                if (p.points <= lowest) {
+                    List<Integer> currentSpot = p.visitedLocations.get(p.visitedLocations.size() - 1);
+                    int y = currentSpot.get(0);
+                    int x = currentSpot.get(1);
+                    if (end.get(0) == y && end.get(1) == x) {
+                        winningPaths.add(p);
+                        lowest = p.points;
+                    }else{
+                        checkDirection(y - 1, x, p, UP, newPaths);
+                        checkDirection(y + 1, x, p, DOWN, newPaths);
+                        checkDirection(y, x - 1, p, LEFT, newPaths);
+                        checkDirection(y, x + 1, p, RIGHT, newPaths);
                     }
                 }
-                paths = new ArrayList<>(newPaths);
             }
-            if(paths.size() == 0){
-                return goalPaths;
+            paths = newPaths;
+        }
+        Set<List<Integer>> winningTiles = new HashSet<>();
+        for(Path p: winningPaths){
+            if(p.points == lowest) {
+                winningTiles.addAll(p.visitedLocations);
+            }
+        }
+        return winningTiles.size();
+    }
+
+    private void checkDirection(int y, int x, Path p, String direction, List<Path> newPaths) {
+        if (map.get(y).get(x) != '#' && !p.visitedLocations.contains(List.of(y, x))) {
+            Path temp = new Path(p.points, new ArrayList<>(p.visitedLocations), direction);
+            temp.points++;
+            if (!p.direction.equals(direction)) {
+                temp.points += 1000;
+            }
+            temp.visitedLocations.add(List.of(y, x));
+
+            if (temp.points <= mapPoints.get(List.of(y, x)) || temp.points - 1000 == mapPoints.get(List.of(y, x))) {
+                mapPoints.put(List.of(y, x), temp.points);
+                newPaths.add(temp);
             }
         }
     }
 
-    private List<String> checkDirection(List<String> availablePath, List<String> path, String direction) {
-        if(!path.contains(direction) && availablePath.contains(direction)){
-            List<String> newPath = new ArrayList<>(path);
-            newPath.add(direction);
-            return newPath;
+    private void initializeSolve(List<String> input) {
+        lowest = Long.MAX_VALUE;
+        start = List.of(input.size() - 2, 1);
+        end = new ArrayList<>(List.of(1, input.get(0).length() - 2));
+        map = new ArrayList<>();
+        paths = new ArrayList<>();
+        mapPoints = new HashMap<>();
+
+        for(int i = 0; i < input.size(); i++){
+            List<Character> row = new ArrayList<>();
+            char[] chars = input.get(i).toCharArray();
+            for(int j = 0; j < chars.length; j++){
+                row.add(chars[j]);
+                mapPoints.put(List.of(i, j), Long.MAX_VALUE);
+            }
+            map.add(row);
         }
-        return null;
+        paths.add(new Path(0, new ArrayList<>(List.of(start)), RIGHT));
     }
+
 }
