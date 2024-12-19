@@ -17,17 +17,37 @@ public class Solve17 {
         return String.join(",", runProgram(program).stream().map(Long::toString).toList());
     }
 
-    public void printB(List<String> input) {
+    public long solveB(List<String> input){
         int[] program = Arrays.stream(input.get(4).split(" ")[1].split(",")).mapToInt(Integer::parseInt).toArray();
         long counter = 1;
-        List<Integer> completeProgram;
-        do{
-            counter*=8;
+        int negativeCheck = 0;
+        while(true){
             a = counter;
-            completeProgram = runProgram(program);
-        }while(completeProgram.size() <= program.length);
-        System.out.println(completeProgram);
-        System.out.println(counter);
+            b = 0;
+            c = 0;
+            List<Integer> newValue = runProgramWithValue(input, counter);
+            if(newValue.size() == program.length && newValue.get(0) == program[0] && newValue.get(1) == program[1]){
+                return counter;
+            }
+            boolean checkValues = true;
+            for(int i = 1; i <= newValue.size(); i++){
+                if(newValue.get(newValue.size()-i) != program[program.length-i]){
+                    checkValues = false;
+                    break;
+                }
+            }
+            if(checkValues){
+                negativeCheck = 0;
+                counter *= 8;
+            }else{
+                if(negativeCheck < 50 && counter > 0){
+                    counter--;
+                    negativeCheck++;
+                }else{
+                    counter++;
+                }
+            }
+        }
     }
 
     public List<Integer> runProgramWithValue(List<String> input, long value){

@@ -13,10 +13,8 @@ public class Run {
         System.out.println("Test A: " + s.solveA(testInput));
         System.out.println("Actual A: " + s.solveA(input));
 
-        s.printB(input);
-        long test = 38886248019999L;
-        System.out.println(s.runProgramWithValue(input, 38886248019999L) + " : " + s.runProgramWithValue(input, 34639));
-        System.out.println("[2, 4, 1, 2, 7, 5, 1, 3, 4, 3, 5, 5, 0, 3, 3, 0]");
+        System.out.println("Test B: " + s.solveB(testInput));
+        System.out.println("Actual B: " + s.solveB(input));
     }
 
 }

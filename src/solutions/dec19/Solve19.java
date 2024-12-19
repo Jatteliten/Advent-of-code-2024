@@ -68,7 +68,6 @@ public class Solve19 {
                         }
                     }
                 }
-
                 currentDesigns = nextDesigns;
             }
         }
