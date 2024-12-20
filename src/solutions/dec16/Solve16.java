@@ -1,5 +1,8 @@
 package solutions.dec16;
 
+import solutions.dec20.Solve20;
+import utils.Utils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -102,15 +105,7 @@ public class Solve16 {
         paths = new ArrayList<>();
         mapPoints = new HashMap<>();
 
-        for(int i = 0; i < input.size(); i++){
-            List<Character> row = new ArrayList<>();
-            char[] chars = input.get(i).toCharArray();
-            for(int j = 0; j < chars.length; j++){
-                row.add(chars[j]);
-                mapPoints.put(List.of(i, j), Long.MAX_VALUE);
-            }
-            map.add(row);
-        }
+        Utils.createPointsMap(input, mapPoints, map);
         paths.add(new Path(0, new ArrayList<>(List.of(start)), RIGHT));
     }
 
