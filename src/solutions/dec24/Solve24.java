@@ -15,17 +15,15 @@ public class Solve24 {
         initializeSolve(input);
         calculateA();
 
-        return Long.parseLong(createPrintableBinaryString(calculatedBits, true),2);
+        return Long.parseLong(createPrintableBinaryString(calculatedBits),2);
     }
 
-    private String createPrintableBinaryString(Map<String, Integer> mapToProcess, boolean shouldStartWithZ) {
+    private String createPrintableBinaryString(Map<String, Integer> mapToProcess) {
         List<String> printableBits = new ArrayList<>();
         StringBuilder binaryBuilder = new StringBuilder();
 
         for (String s : mapToProcess.keySet()) {
-            if (s.startsWith("z") && shouldStartWithZ) {
-                printableBits.add(s + ": " + mapToProcess.get(s));
-            }else if(!shouldStartWithZ){
+            if (s.startsWith("z")) {
                 printableBits.add(s + ": " + mapToProcess.get(s));
             }
         }
@@ -52,27 +50,9 @@ public class Solve24 {
                 if(calculatedBits.get(resultingBit) == null && calculatedBits.get(first) != null
                         && calculatedBits.get(second) != null){
                     switch (operator) {
-                        case "AND" -> {
-                            if (calculatedBits.get(first) == 0 || calculatedBits.get(second) == 0) {
-                                calculatedBits.put(resultingBit, 0);
-                            } else {
-                                calculatedBits.put(resultingBit, 1);
-                            }
-                        }
-                        case "OR" -> {
-                            if (calculatedBits.get(first) == 0 && calculatedBits.get(second) == 0) {
-                                calculatedBits.put(resultingBit, 0);
-                            } else {
-                                calculatedBits.put(resultingBit, 1);
-                            }
-                        }
-                        case "XOR" -> {
-                            if (calculatedBits.get(first).equals(calculatedBits.get(second))) {
-                                calculatedBits.put(resultingBit, 0);
-                            } else {
-                                calculatedBits.put(resultingBit, 1);
-                            }
-                        }
+                        case "AND" -> calculatedBits.put(resultingBit, calculatedBits.get(first) & calculatedBits.get(second));
+                        case "OR" -> calculatedBits.put(resultingBit, calculatedBits.get(first) | calculatedBits.get(second));
+                        case "XOR" -> calculatedBits.put(resultingBit, calculatedBits.get(first) ^ calculatedBits.get(second));
                     }
                 }
             }
