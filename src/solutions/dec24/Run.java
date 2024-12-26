@@ -13,6 +13,9 @@ public class Run {
         System.out.println("Test A: " + s.solveA(testInput));
         System.out.println("Actual A: " + s.solveA(input));
 
+        // If output is a z gate, the operation has to be XOR and it cannot have x and y as inputs. Unless it is z00
+        // If a XOR operation has x and y as inputs, the output has to have a XOR operation where it is the input
+        // If operation is AND. An OR operation has to use the output from the AND operation as input
         System.out.println("Actual B done manually: cnk,mps,msq,qwf,vhm,z14,z27,z39");
     }
 }
